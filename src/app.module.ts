@@ -5,6 +5,9 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { ClientModule } from './client/client.module';
 import { ProjectModule } from './project/project.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -17,7 +20,12 @@ import { ProjectModule } from './project/project.module';
     autoLoadEntities: true,
     entities: [],
     synchronize: true
-  }), UserModule, ClientModule, ProjectModule],
+  }), 
+    UserModule, 
+    ClientModule, 
+    ProjectModule, 
+    AuthModule, CommonModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
