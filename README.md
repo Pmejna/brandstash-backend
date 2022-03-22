@@ -13,4 +13,4 @@ FRONTEND_URL="http://localhost:4200"
 ```bash
 npm install && docker compose up
 ```
-** 
+** have fun
