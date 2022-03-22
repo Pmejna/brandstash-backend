@@ -1,7 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { CreateUserDto } from './models/create-user.dto';
 import { User } from './models/user.entity';
 import { UserService } from './user.service';
+import * as bcrypt from 'bcryptjs';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(AuthGuard)
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) {}
@@ -9,6 +14,29 @@ export class UserController {
     @Get('all')
     async all(): Promise<User[]> {
         return await this.userService.all();
+    }
+
+    @Get(':uuid')
+    async getUser(@Param('uuid')uuid: string): Promise<User> {
+        return await this.userService.getUser(uuid);
+    }
+
+    @Post('create')
+    async create(
+        @Body()body: CreateUserDto
+    ): Promise<User> {
+        if(body.user_password !== body.user_password_confirm) {
+            throw new BadRequestException('Password does not match')
+        }
+        const password = bcrypt.hash(body.user_password, 12);
+        return this.userService.create({
+            user_email: body.user_email,
+            user_password: password,
+            user_first_name: body.user_first_name,
+            user_last_name: body.user_last_name,
+            user_company_uuid: body.user_company_uuid,
+            user_job_title: body.user_job_title,
+        });
     }
 
 }

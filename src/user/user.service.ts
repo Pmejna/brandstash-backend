@@ -1,4 +1,4 @@
-import { Get, Injectable } from '@nestjs/common';
+import { BadRequestException, Get, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserDTO } from 'src/auth/models/register-user.dto';
 import { Repository } from 'typeorm';
@@ -14,6 +14,10 @@ export class UserService {
         return await this.userRepository.find();
     }
 
+    async getUser(uuid): Promise<User> {
+        return await this.userRepository.findOne({where: { user_id: uuid}})
+    }
+
     async createUser(data: RegisterUserDTO): Promise<User> {
         const user = await this.userRepository.save({user_email: data.email, user_password: data.password});
         return user 
@@ -23,7 +27,7 @@ export class UserService {
         return await this.userRepository.findOne(condition);
     }
 
-    // async login(): Promise<User> {
-    //     return
-    // }
+    async create(data): Promise<User> {
+        return await this.userRepository.save(data)
+    }
 }
