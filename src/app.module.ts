@@ -6,8 +6,10 @@ import { UserModule } from './user/user.module';
 import { ClientModule } from './client/client.module';
 import { ProjectModule } from './project/project.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+import { RoleModule } from './role/role.module';
+import { PermissionController } from './permission/permission.controller';
+import { PermissionModule } from './permission/permission.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,7 +26,10 @@ import { CommonModule } from './common/common.module';
     UserModule, 
     ClientModule, 
     ProjectModule, 
-    AuthModule, CommonModule
+    AuthModule, 
+    CommonModule, 
+    RoleModule, 
+    PermissionModule
   ],
   controllers: [AppController],
   providers: [AppService],

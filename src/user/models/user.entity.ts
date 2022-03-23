@@ -1,6 +1,7 @@
 import {UserInterface} from '../../interfaces/iUser';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Exclude } from 'class-transformer';
+import { Role } from 'src/role/models/role.entity';
 
 @Entity('users')
 export class User implements UserInterface {
@@ -17,11 +18,13 @@ export class User implements UserInterface {
   user_password: string;
   @Column({type: 'varchar', length: 400, default: ''})
   user_company_uuid?: string;
-  @Exclude()
   @Column({type: 'varchar', length: 255, default: ''})
   user_job_title?: string;
   @CreateDateColumn()
   user_created_datetime: Date;
   @UpdateDateColumn()
   user_updated_datetime: Date;
+  @ManyToOne(() => Role)
+  @JoinColumn({name: 'user_role_id'})
+  role: Role;
 }
