@@ -17,7 +17,6 @@ export class User implements UserInterface {
   user_password: string;
   @Column({type: 'varchar', length: 400, default: ''})
   user_company_uuid?: string;
-  @Exclude()
   @Column({type: 'varchar', length: 255, default: ''})
   user_job_title?: string;
   @CreateDateColumn()

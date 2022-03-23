@@ -1,9 +1,10 @@
-import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto } from './models/create-user.dto';
 import { User } from './models/user.entity';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcryptjs';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { UpdateUserDto } from './models/update-user.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard)
@@ -17,7 +18,7 @@ export class UserController {
     }
 
     @Get(':uuid')
-    async getUser(@Param('uuid')uuid: string): Promise<User> {
+    async getUser(@Param('uuid')uuid: string): Promise<User | NotFoundException>{
         return await this.userService.getUser(uuid);
     }
 
@@ -37,6 +38,22 @@ export class UserController {
             user_company_uuid: body.user_company_uuid,
             user_job_title: body.user_job_title,
         });
+    }
+
+    @Put('update/:uuid')
+    async update(
+        @Param('uuid')uuid: string,
+        @Body()body: UpdateUserDto
+    ): Promise<User> {
+        await this.userService.update(uuid, body)
+        return this.userService.findOne({where: {user_id: uuid}})
+    }
+
+    @Delete('delete/:uuid')
+    async delete(
+        @Param('uuid')uuid: string
+    ): Promise<any> {
+        return this.userService.delete(uuid)
     }
 
 }
