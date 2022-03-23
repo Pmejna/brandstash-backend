@@ -8,4 +8,5 @@ export class RegisterUserDTO {
     password: string;
     @IsNotEmpty()
     password_confirm: string;
+    role_id: number;
 }

@@ -8,4 +8,5 @@ export class UpdateUserDto {
     user_email?: string;
     user_company_uuid?: string;
     user_job_title?: string;
+    user_role_id?: number;
 }

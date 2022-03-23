@@ -41,7 +41,7 @@ export class UserService {
     }
 
     async createUser(data: RegisterUserDTO): Promise<User> {
-        const user = await this.userRepository.save({user_email: data.email, user_password: data.password});
+        const user = await this.userRepository.save({user_email: data.email, user_password: data.password, role: {role_id: data.role_id}});
         return user 
     }
 

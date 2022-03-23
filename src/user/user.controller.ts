@@ -31,7 +31,7 @@ export class UserController {
         if(body.user_password !== body.user_password_confirm) {
             throw new BadRequestException('Password does not match')
         }
-        const password = bcrypt.hash(body.user_password, 12);
+        const password = await bcrypt.hash(body.user_password, 12);
         return this.userService.create({
             user_email: body.user_email,
             user_password: password,
@@ -39,6 +39,7 @@ export class UserController {
             user_last_name: body.user_last_name,
             user_company_uuid: body.user_company_uuid,
             user_job_title: body.user_job_title,
+            role: {role_id: body.user_role_id}
         });
     }
 
@@ -47,7 +48,11 @@ export class UserController {
         @Param('uuid')uuid: string,
         @Body()body: UpdateUserDto
     ): Promise<User> {
-        await this.userService.update(uuid, body)
+        const {user_role_id, ...data} = body
+        await this.userService.update(uuid, {
+            ...data,
+            role: {role_id: user_role_id}
+        })
         return this.userService.findOne({where: {user_id: uuid}})
     }
 

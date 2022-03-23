@@ -25,7 +25,8 @@ export class AuthController {
         return this.userService.createUser({
             password: hashedPass,
             email: body.email, 
-            password_confirm: body.password_confirm
+            password_confirm: body.password_confirm,
+            role_id: body.role_id
         })
     }
 
