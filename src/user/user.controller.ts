@@ -1,4 +1,4 @@
-import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, ClassSerializerInterceptor, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto } from './models/create-user.dto';
 import { User } from './models/user.entity';
 import { UserService } from './user.service';
@@ -13,8 +13,10 @@ export class UserController {
     constructor(private userService: UserService) {}
 
     @Get('all')
-    async all(): Promise<User[]> {
-        return await this.userService.all();
+    async all(
+            @Query('page')page: number = 1
+        ): Promise<User[]> {
+        return await this.userService.paginate(page);
     }
 
     @Get(':uuid')

@@ -8,6 +8,7 @@ import { ProjectModule } from './project/project.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,7 +25,7 @@ import { CommonModule } from './common/common.module';
     UserModule, 
     ClientModule, 
     ProjectModule, 
-    AuthModule, CommonModule
+    AuthModule, CommonModule, RoleModule
   ],
   controllers: [AppController],
   providers: [AppService],
