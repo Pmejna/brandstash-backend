@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -11,11 +11,12 @@ export abstract class AbstractService {
         return this.repository.find()
     }
 
-    async paginate(page: number = 1): Promise<any> {
-        const take = 10;
+    async paginate(page: number = 1, takeProvided: number = 10, relations: string[] = []): Promise<any> {
+        const take = takeProvided;
         const [data, total] = await this.repository.findAndCount({
             take,
-            skip: (page-1) * take
+            skip: (page-1) * take,
+            relations
         });
 
         return {
@@ -28,8 +29,13 @@ export abstract class AbstractService {
         }
     }
 
-    async getOne(condition): Promise<any> {
-        return this.repository.findOne(condition)
+    async getOne(condition): Promise<any | NotFoundException> {
+        const result = await this.repository.findOne(condition);
+        if(!result) {
+            return new NotFoundException('Not found')
+        } else {
+            return result
+        }
     }
     async create(data): Promise<any> {
         return await this.repository.save(data)

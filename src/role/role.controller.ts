@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ModifyRoleDto } from './models/modify-role.dto';
 import { Role } from './models/role.entity';
@@ -11,9 +11,12 @@ export class RoleController {
         private roleService: RoleService
     ) {}
     
-    @Get()
-    async all() {
-        return this.roleService.all();
+    @Get('all')
+    async all(
+            @Query('page')page: number,
+            @Query('take')takeProvided: number
+        ): Promise<Role[]> {
+        return await this.roleService.paginate(page, takeProvided);
     }
 
     @Get('/:id')
