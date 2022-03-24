@@ -7,12 +7,14 @@ import { LoginUserDTO } from './models/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
 import { AuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller()
 export class AuthController {
     constructor(
         private userService: UserService,
+        private authService: AuthService, 
         private jwtService: JwtService
     ) {}
     
@@ -22,7 +24,7 @@ export class AuthController {
             throw new BadRequestException('Password doesnt match')
         }
         const hashedPass: string = await bcrypt.hash(body.password, 12);  
-        return this.userService.createUser({
+        return this.userService.create({
             password: hashedPass,
             email: body.email, 
             password_confirm: body.password_confirm,
@@ -35,7 +37,7 @@ export class AuthController {
             @Body()body: LoginUserDTO,
             @Res({passthrough: true}) response: Response
         ): Promise<User> {
-        const user = await this.userService.findOne({where: {"user_email": body.email}});
+        const user = await this.userService.getOne({where: {"user_email": body.email}});
         if(!user) {
             throw new NotFoundException('User not found')
         }
@@ -52,12 +54,8 @@ export class AuthController {
     @UseGuards(AuthGuard)
     @Get('user')
     async user(@Req()request: Request): Promise<User>{
-        const cookie = request.cookies['jwt'];
-        const data = await this.jwtService.verifyAsync(cookie);
-        if(!data) {
-            new BadRequestException('Forbidden')
-        }
-        return await this.userService.findOne({where: {user_id: data['id']}})
+        const user_id = await this.authService.user(request);
+        return await this.userService.getOne({where: {user_id}})
     }
 
     @UseGuards(AuthGuard)
