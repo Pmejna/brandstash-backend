@@ -20,14 +20,18 @@ export class RoleController {
     async getOne(
         @Param('id') id: number
     ): Promise<Role> {
-        return this.roleService.getOne({where: {role_id: id}});
+        return this.roleService.getOne({where: {role_id: id}, relations: ['permissions']});
     }
 
     @Post('create')
     async createRole(
         @Body()body: ModifyRoleDto 
     ): Promise<Role> {
-        return this.roleService.createRole(body)
+        return this.roleService.create({
+            role_name: body.role_name,
+            permissions: body.permissions.map(permission_id => ({permission_id}))
+
+        })
     }
 
     @Put('update/:id')
@@ -35,14 +39,19 @@ export class RoleController {
         @Param('id') id: number,
         @Body()body: ModifyRoleDto
     ): Promise<any> {
-        return this.roleService.updateRole(id, body)
+        await this.roleService.update(id, {role_name: body.role_name})
+        const role = await this.roleService.getOne({where: {role_id: id}})
+        return this.roleService.create({
+            ...role,
+            permissions: body.permissions.map(permission_id => ({permission_id}))
+        })
     }
 
     @Delete('delete/:id')
     async deleteRole(
         @Param('id') id: number
     ) {
-        return this.roleService.deleteRole(id)
+        return this.roleService.delete(id)
     }
 
 }
