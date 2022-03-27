@@ -71,7 +71,7 @@ export class UserController {
         if (password !== password_confirmation) {
             new BadRequestException('Sorry, Password does not match')
         } else {
-            const newPassword = await bcrypt.hash(password, 12)
+            const newPassword = await bcrypt.hash(password, 12);
             await this.userService.update(uuid, {user_password: newPassword});
             return {message: 'Password updated succesfully'}
         }
