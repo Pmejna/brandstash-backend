@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module';
 import { RoleModule } from './role/role.module';
 import { PermissionController } from './permission/permission.controller';
 import { PermissionModule } from './permission/permission.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -29,7 +30,7 @@ import { PermissionModule } from './permission/permission.module';
     AuthModule, 
     CommonModule, 
     RoleModule, 
-    PermissionModule
+    PermissionModule, CompanyModule
   ],
   controllers: [AppController],
   providers: [AppService],
