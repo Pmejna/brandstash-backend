@@ -26,16 +26,20 @@ export class AuthController {
             throw new BadRequestException('Password doesnt match')
         }
         const hashedPass: string = await bcrypt.hash(body.password, 12);
-        const companyName: string = body.company_name.length > 0 ? body.company_name : (`${body.first_name} ${body.last_name}`);
+        const companyName: string 
+            = body.company_name.length > 0 ? body.company_name
+            : (`${body.first_name} ${body.last_name}`);
+            
         const user = await this.userService.create({
-            user_first_name: body.first_name,
-            user_last_name: body.last_name,
-            user_password: hashedPass,
-            user_email: body.email, 
-            role: {role_id: body.role_id},
+            user_first_name:    body.first_name,
+            user_last_name:     body.last_name,
+            user_password:      hashedPass,
+            user_email:         body.email, 
+            role:               {role_id: body.role_id},
         });
         const company = await this.companyService.create({
             company_name: companyName,
+            company_type: body.company_type,
         })
         await this.userService.update(user.user_id, {company: {company_uuid: company.company_uuid}},);
         return user;
