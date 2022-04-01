@@ -10,7 +10,7 @@ export class CreateUserDto {
     user_password: string;
     @IsNotEmpty()
     user_password_confirm: string;
-    user_company_uuid?: string;
+    user_company_uuid: string;
     user_job_title?: string;
     @IsNotEmpty()
     user_role_id: string;

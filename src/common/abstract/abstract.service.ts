@@ -40,8 +40,8 @@ export abstract class AbstractService {
     async create(data): Promise<any> {
         return await this.repository.save(data)
     }
-    async update(role_id, data): Promise<any> {
-        return await this.repository.update(role_id, data)
+    async update(id, data): Promise<any> {
+        return await this.repository.update(id, data)
     }
     async delete(id): Promise<any> {
         return await this.repository.delete(id)
