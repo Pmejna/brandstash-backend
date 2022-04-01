@@ -5,6 +5,7 @@ export enum companyType {
 
 export interface CompanyInterface {
   company_uuid: string;
+  company_name: string;
   company_type: companyType;
   company_address_line1?: string;
   company_address_line2?: string;

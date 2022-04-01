@@ -6,6 +6,8 @@ import { CompanyInterface, companyType } from "src/interfaces/iCompany";
 export class Company implements CompanyInterface {
     @PrimaryGeneratedColumn('uuid')
     company_uuid: string;
+    @Column({type: 'varchar', length: 255})
+    company_name: string;
     @Column({type: 'enum', enum: companyType, default: companyType.company_brand})
     company_type: companyType;
     @Column({type: 'varchar', length: 255, default: ''})

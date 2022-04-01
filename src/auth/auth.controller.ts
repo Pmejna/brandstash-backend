@@ -8,13 +8,15 @@ import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { CompanyService } from 'src/company/company.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller()
 export class AuthController {
     constructor(
         private userService: UserService,
-        private authService: AuthService, 
+        private authService: AuthService,
+        private companyService: CompanyService, 
         private jwtService: JwtService
     ) {}
     
@@ -23,13 +25,25 @@ export class AuthController {
         if (body.password !== body.password_confirm) {
             throw new BadRequestException('Password doesnt match')
         }
-        const hashedPass: string = await bcrypt.hash(body.password, 12);  
-        return this.userService.create({
-            password: hashedPass,
-            email: body.email, 
-            password_confirm: body.password_confirm,
-            role_id: body.role_id
+        const hashedPass: string = await bcrypt.hash(body.password, 12);
+        const companyName: string 
+            = body.company_name.length > 0 ? body.company_name
+            : (`${body.first_name} ${body.last_name}`);
+            
+        const user = await this.userService.create({
+            user_first_name:    body.first_name,
+            user_last_name:     body.last_name,
+            user_password:      hashedPass,
+            user_email:         body.email, 
+            role:               {role_id: body.role_id},
+        });
+        const company = await this.companyService.create({
+            company_name: companyName,
+            company_type: body.company_type,
         })
+        await this.userService.update(user.user_id, {company: {company_uuid: company.company_uuid}},);
+        return user;
+
     }
 
     @Post('login')
