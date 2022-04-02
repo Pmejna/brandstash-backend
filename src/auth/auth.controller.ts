@@ -10,8 +10,8 @@ import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { CompanyService } from 'src/company/company.service';
 
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller()
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
     constructor(
         private userService: UserService,
@@ -29,7 +29,7 @@ export class AuthController {
         const companyName: string 
             = body.company_name.length > 0 ? body.company_name
             : (`${body.first_name} ${body.last_name}`);
-            
+
         const user = await this.userService.create({
             user_first_name:    body.first_name,
             user_last_name:     body.last_name,
@@ -42,7 +42,7 @@ export class AuthController {
             company_type: body.company_type,
         })
         await this.userService.update(user.user_id, {company: {company_uuid: company.company_uuid}},);
-        return user;
+        return this.userService.getOne({where: {user_id: user.user_id}});
 
     }
 
@@ -50,7 +50,7 @@ export class AuthController {
     async login(
             @Body()body: LoginUserDTO,
             @Res({passthrough: true}) response: Response
-        ): Promise<User> {
+        ): Promise<any> {
         const user = await this.userService.getOne({where: {"user_email": body.email}});
         if(!user) {
             throw new NotFoundException('User not found')
@@ -59,10 +59,10 @@ export class AuthController {
             throw new BadRequestException('Password incorrect');
         }
 
-        const jwtToken = await this.jwtService.signAsync({id:user.user_id});
-        response.cookie('jwt', jwtToken, {httpOnly: true})
+        const jwtToken = await this.jwtService.signAsync({id: user.user_id});
+        response.cookie('jwt', jwtToken, {httpOnly: true, sameSite: 'none', secure: true, maxAge: 1000 * 60 * 60 * 24 * 7, domain: 'localhost',});
 
-        return user
+        return {'jwt': jwtToken}
     }
 
     @UseGuards(AuthGuard)
