@@ -8,10 +8,9 @@ import { AuthService } from './auth.service';
 
 @Module({
   imports: [
+    CommonModule,
     forwardRef(() => UserModule),
     forwardRef(() => CompanyModule),
-    CommonModule,
-    ConfigModule.forRoot(),
   ],
   exports: [AuthService],
   controllers: [AuthController],
