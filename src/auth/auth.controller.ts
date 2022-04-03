@@ -9,12 +9,15 @@ import { Response, Request } from 'express';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { CompanyService } from 'src/company/company.service';
+import process from 'process';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
     constructor(
         private userService: UserService,
+        private configService: ConfigService,
         private authService: AuthService,
         private companyService: CompanyService, 
         private jwtService: JwtService
@@ -58,9 +61,9 @@ export class AuthController {
         if(!await bcrypt.compare(body.password, user.user_password)) {
             throw new BadRequestException('Password incorrect');
         }
-
+        const frontendDomain = this.configService.get<string>('FRONTEND_DOMAIN');
         const jwtToken = await this.jwtService.signAsync({id: user.user_id});
-        response.cookie('jwt', jwtToken, {httpOnly: true, sameSite: 'none', secure: true, maxAge: 1000 * 60 * 60 * 24 * 7, domain: 'localhost',});
+        response.cookie('jwt', jwtToken, {httpOnly: true, domain: frontendDomain,});
 
         return {'jwt': jwtToken}
     }
