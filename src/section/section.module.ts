@@ -5,6 +5,7 @@ import { SectionCategoryModule } from './section-category/section-category.modul
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Section } from './models/section.entity';
 import { SectionCategory } from './models/section-category.entity';
+import { CommonModule } from 'src/common/common.module';
 
 @Module({
   exports: [SectionService],
@@ -15,7 +16,8 @@ import { SectionCategory } from './models/section-category.entity';
       Section,
       SectionCategory
     ]),
-    SectionCategoryModule
+    SectionCategoryModule,
+    CommonModule
   ]
 })
 export class SectionModule {}
