@@ -9,7 +9,7 @@ import { CommonService } from './common.service';
     ConfigModule.forRoot(),
     JwtModule.register({
       secret: process.env.SECRET_KEY,
-      signOptions: {expiresIn: '1d'}
+      signOptions: {expiresIn: '2d'}
     }),
   ],
   controllers: [CommonController],

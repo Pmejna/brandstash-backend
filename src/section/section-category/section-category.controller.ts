@@ -11,12 +11,12 @@ export class SectionCategoryController {
     constructor(
         private readonly sectionCategoryService: SectionCategoryService
     ) {}
-
+    
     @Get('all')
     async all(
         @Query('page')page: number = 1
     ): Promise<SectionCategory[]> {
-        return await this.sectionCategoryService.paginate(10, page);
+        return await this.sectionCategoryService.paginate(page, 10, ['sections']);
     }
     @Get(':id')
     async getSectionCategory(

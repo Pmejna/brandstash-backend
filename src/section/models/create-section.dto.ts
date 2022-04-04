@@ -2,11 +2,13 @@ import { IsNotEmpty } from "class-validator";
 
 export class CreateSectionDto {
     @IsNotEmpty()
-    section_name: string;
+    name: string;
     @IsNotEmpty()
-    section_slug: string;
+    text: string;
     @IsNotEmpty()
-    section_icon: string;
+    slug: string;
+    @IsNotEmpty()
+    icon: string;
     @IsNotEmpty()
     category: number;
 }

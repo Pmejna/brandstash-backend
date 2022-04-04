@@ -2,6 +2,7 @@ import { Body, ClassSerializerInterceptor, Controller, Delete, Get, NotFoundExce
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSectionDto } from './models/create-section.dto';
 import { Section } from './models/section.entity';
+import { UpdateSectionDto } from './models/update-section.dto';
 import { SectionCategoryService } from './section-category/section-category.service';
 import { SectionService } from './section.service';
 
@@ -17,7 +18,7 @@ export class SectionController {
     async all(
         @Query('page')page: number = 1
         ): Promise<Section[]> {
-        return await this.sectionService.paginate(page, 10, ['section_category']);
+        return await this.sectionService.paginate(page, 10, ['category']);
     }
 
     @Get(':id')
@@ -30,25 +31,25 @@ export class SectionController {
         @Body()body: CreateSectionDto
         ): Promise<Section> {
         return await this.sectionService.create({
-            section_name: body.section_name,
-            section_slug: body.section_slug,
-            section_icon: body.section_icon,
+            section_name: body.name,
+            section_text: body.text,
+            section_slug: body.slug,
+            section_icon: body.icon,
             category: {section_cat_id: body.category}
         });
     }
 
     @Put('update/:id')
     async update(
-        @Query('id')id: number,
-        @Body()body: CreateSectionDto
+        @Param('id')id: number,
+        @Body()body: UpdateSectionDto
         ): Promise<Section> {
+        const category = body.category ? {section_cat_id: body.category} : null;
         const section = await this.sectionService.update(id, {
-            section_name: body.section_name,
-            section_slug: body.section_slug,
-            section_icon: body.section_icon,
-            category: {section_cat_id: body.category}
+            ...body,
+            category
         });
-        return this.sectionService.getOne({where: {section_id: id}, relations: ['section_category']});
+        return this.sectionService.getOne({where: {section_id: id}, relations: ['category']});
     }
 
     @Delete(':id')
