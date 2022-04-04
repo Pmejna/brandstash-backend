@@ -8,6 +8,8 @@ export class Section implements SectionInterface {
     section_id: number;
     @Column({ type: 'varchar', length: 50, unique: true })
     section_name: string;
+    @Column({ type: 'varchar', length: 50})
+    section_text: string;
     @Column({ type: 'varchar', length: 50, unique: true })
     section_slug: string;
     @Column({ type: 'varchar', length: 50})

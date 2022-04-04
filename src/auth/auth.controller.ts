@@ -62,17 +62,18 @@ export class AuthController {
             throw new BadRequestException('Password incorrect');
         }
         const frontendDomain = this.configService.get<string>('FRONTEND_DOMAIN');
-        const jwtToken = await this.jwtService.signAsync({id: user.user_id});
-        response.cookie('jwt', jwtToken, {httpOnly: true, domain: frontendDomain,});
+        const jwt = await this.jwtService.signAsync({id: user.user_id});
+        response.cookie('jwt', jwt, {httpOnly: true, domain: frontendDomain});
 
-        return {'jwt': jwtToken}
+        return user
     }
 
     @UseGuards(AuthGuard)
     @Get('user')
     async user(@Req()request: Request): Promise<User>{
-        const user_id = await this.authService.user(request);
-        return await this.userService.getOne({where: {user_id}})
+        const cookie = request.cookies['jwt'];
+        const data = await this.jwtService.verifyAsync(cookie);
+        return data;
     }
 
     @UseGuards(AuthGuard)
