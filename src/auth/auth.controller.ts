@@ -18,7 +18,6 @@ export class AuthController {
     constructor(
         private userService: UserService,
         private configService: ConfigService,
-        private authService: AuthService,
         private companyService: CompanyService, 
         private jwtService: JwtService
     ) {}
@@ -73,7 +72,8 @@ export class AuthController {
     async user(@Req()request: Request): Promise<User>{
         const cookie = request.cookies['jwt'];
         const data = await this.jwtService.verifyAsync(cookie);
-        return data;
+        const user = this.userService.getOne({user_id: data.id});
+        return user;
     }
 
     @UseGuards(AuthGuard)
