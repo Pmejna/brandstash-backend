@@ -4,7 +4,7 @@ export enum categoryType {
     briefs    =    'briefs',
     clients   =    'clients',
     designer  =    'designer',
-    useful    =    'useful',
+    business  =    'business',
     user      =    'user'
 }
 

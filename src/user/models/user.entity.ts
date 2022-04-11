@@ -40,4 +40,6 @@ export class User implements UserInterface {
   @ManyToOne(() => Role)
   @JoinColumn({name: 'user_role_id'})
   role: Role;
+
+  
 }
