@@ -18,12 +18,10 @@ export enum permissionsEnum {
     view_clients            = 'view_clients',
 }
 
-const permissionsArray = (Object.keys(permissionsEnum) as (keyof typeof permissionsEnum)[]).map(
+export const permissionsArray = (Object.keys(permissionsEnum) as (keyof typeof permissionsEnum)[]).map(
     (key) => {
     return {permission_name: permissionsEnum[key]};
 });
-
-export const permissionsSeed = permissionsArray;
 
 export interface PermissionInterface {
     permission_id: number;
