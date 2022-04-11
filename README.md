@@ -13,4 +13,7 @@ FRONTEND_URL="http://localhost:4200"
 ```bash
 npm install && docker compose up
 ```
-** have fun
+
+>Keep in mind that this is not a production product yet,
+>so all database setup don't use an ENV variables.
+>This will change when project will go live.
