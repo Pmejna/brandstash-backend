@@ -1,10 +1,10 @@
-import { PermissionInterface } from "src/interfaces/iPermission";
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { PermissionInterface, permissionsEnum} from "../../interfaces/iPermission";
+import { Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity('permissions')
 export class Permission implements PermissionInterface {
     @PrimaryGeneratedColumn()
     permission_id: number;
-    @Column({type: 'varchar', length: 255, unique: true})
-    permission_name: string;
+    @Column({type: 'enum', enum: permissionsEnum})
+    permission_name: permissionsEnum;
 }
