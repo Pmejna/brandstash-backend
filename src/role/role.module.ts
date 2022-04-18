@@ -7,6 +7,7 @@ import { RoleController } from './role.controller';
 import { RoleService } from './role.service';
 
 @Module({
+  controllers: [RoleController],
   imports: [
     CommonModule,
     ConfigModule.forRoot(),
@@ -14,7 +15,6 @@ import { RoleService } from './role.service';
       Role
     ])
   ],
-  controllers: [RoleController],
   providers: [RoleService]
 })
 export class RoleModule {}

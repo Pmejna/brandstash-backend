@@ -32,7 +32,6 @@ export class User implements UserInterface {
   @UpdateDateColumn()
   user_updated_datetime: Date;
     
-
   @ManyToOne(() => Company)
   @JoinColumn({ name: 'user_company_uuid' })
   company: Company;
@@ -40,6 +39,5 @@ export class User implements UserInterface {
   @ManyToOne(() => Role)
   @JoinColumn({name: 'user_role_id'})
   role: Role;
-
   
 }

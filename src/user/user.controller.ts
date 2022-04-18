@@ -26,7 +26,7 @@ export class UserController {
 
     @Get(':uuid')
     async getUser(@Param('uuid')uuid: string): Promise<User | NotFoundException>{
-        return await this.userService.getOne({where: {user_id: uuid}, relations: ['role']});
+        return await this.userService.getOne({where: {user_id: uuid}, relations: ['role', 'company']});
     }
 
     @Post('create')
