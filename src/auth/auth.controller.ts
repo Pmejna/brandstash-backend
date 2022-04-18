@@ -72,7 +72,7 @@ export class AuthController {
     async user(@Req()request: Request): Promise<User>{
         const cookie = request.cookies['jwt'];
         const data = await this.jwtService.verifyAsync(cookie);
-        const user = this.userService.getOne({user_id: data.id});
+        const user = this.userService.getOne({where: {user_id: data.id}, relations: ['company', 'role']});
         return user;
     }
 
