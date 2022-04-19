@@ -11,9 +11,10 @@ export abstract class AbstractService {
         return this.repository.find()
     }
 
-    async paginate(page: number = 1, takeProvided: number = 10, relations: string[] = []): Promise<any> {
+    async paginate(page: number = 1, takeProvided: number = 10, relations: string[] = [], condition?: any): Promise<any> {
         const take = takeProvided;
         const [data, total] = await this.repository.findAndCount({
+            where: condition ? condition : {},
             take,
             skip: (page-1) * take,
             relations

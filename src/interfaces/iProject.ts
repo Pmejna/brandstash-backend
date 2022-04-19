@@ -1,13 +1,15 @@
 export enum ProjectStatus {
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE',
-    COMPLETED = 'COMPLETED',
+    ACTIVE      = 'ACTIVE',
+    INACTIVE    = 'INACTIVE',
+    COMPLETED   = 'COMPLETED',
+    CANCELLED   = 'CANCELLED',
+    REVIEW      = 'REVIEW',
 }
 
 export enum ProjectPriority {
-    LOW = 'LOW',
-    MEDIUM = 'MEDIUM',
-    HIGH = 'HIGH',
+    LOW         = 'LOW',
+    MEDIUM      = 'MEDIUM',
+    HIGH        = 'HIGH',
 }
 
 export interface ProjectInterface {
@@ -15,6 +17,7 @@ export interface ProjectInterface {
     project_name: string
     project_description: string
     project_status: ProjectStatus
+    project_created_by: string
     project_type: string
     project_priority: string
     project_progress: number
