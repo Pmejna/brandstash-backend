@@ -11,6 +11,4 @@ export class ProjectService extends AbstractService {
     ) {
         super(projectRepository);
     }
-
-
 }
