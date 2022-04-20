@@ -22,9 +22,6 @@ export class Project implements ProjectInterface {
     @Column({ type: 'varchar', length: 255, default: '' })
     project_name
 
-    @Column({type: 'varchar', length: 255, default: ''})
-    project_created_by
-    
     @Column({ type: 'varchar', length: 255, default: '' })
     project_description
 

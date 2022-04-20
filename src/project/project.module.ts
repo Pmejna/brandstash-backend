@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 import { User } from 'src/user/models/user.entity';
 import { UserModule } from 'src/user/user.module';
@@ -15,7 +14,6 @@ import { ProjectService } from './project.service';
   imports: [
     CommonModule,
     UserModule,
-    AuthModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forFeature([
       Project
