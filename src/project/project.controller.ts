@@ -42,8 +42,8 @@ export class ProjectController {
             project_type: body.project_type,
             project_priority: body.project_priority,
             project_progress: body.project_progress,
-            project_date_started: body.project_date_started,
-            project_date_end: body.project_date_end,
+            project_start_date: body.project_start_date,
+            project_end_date: body.project_end_date,
             company: {company_uuid: user.company.company_uuid},
             client: {company_uuid: body.project_client_company_uuid},
         });

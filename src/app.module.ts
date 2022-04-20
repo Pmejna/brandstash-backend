@@ -13,6 +13,7 @@ import { PermissionModule } from './permission/permission.module';
 import { CompanyModule } from './company/company.module';
 import { ConfigModule } from '@nestjs/config';
 import { SectionModule } from './section/section.module';
+import { BriefModule } from './brief/brief.module';
 
 @Module({
   imports: [
@@ -36,7 +37,7 @@ import { SectionModule } from './section/section.module';
     AuthModule, 
     CommonModule, 
     RoleModule, 
-    PermissionModule, CompanyModule, SectionModule
+    PermissionModule, CompanyModule, SectionModule, BriefModule
   ],
   controllers: [AppController],
   providers: [AppService],

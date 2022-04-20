@@ -18,8 +18,10 @@ export interface ProjectInterface {
     project_type: string
     project_priority: string
     project_progress: number
-    project_date_started: Date
-    project_date_end: Date
+    project_budget: number
+    project_objective: string
+    project_start_date: Date
+    project_end_date: Date
     project_created_datetime: Date
     project_updated_datetime: Date
 }

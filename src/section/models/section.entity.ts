@@ -6,13 +6,13 @@ import { SectionCategory } from "./section-category.entity";
 export class Section implements SectionInterface {
     @PrimaryGeneratedColumn()
     section_id: number;
-    @Column({ type: 'varchar', length: 50, unique: true })
+    @Column({ type: 'varchar', length: 255 })
     section_name: string;
-    @Column({ type: 'varchar', length: 50})
+    @Column({ type: 'varchar', length: 255 })
     section_text: string;
-    @Column({ type: 'varchar', length: 50, unique: true })
+    @Column({ type: 'varchar', length: 255, unique: true })
     section_slug: string;
-    @Column({ type: 'varchar', length: 50})
+    @Column({ type: 'varchar', length: 255})
     section_icon: string;
 
     @ManyToOne(() => SectionCategory)

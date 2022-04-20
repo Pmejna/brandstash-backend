@@ -16,6 +16,7 @@ import {
 
 @Entity('projects')
 export class Project implements ProjectInterface {
+
     @PrimaryGeneratedColumn('uuid')
     project_uuid: string
 
@@ -31,12 +32,6 @@ export class Project implements ProjectInterface {
     @UpdateDateColumn({ type: 'timestamp'})
     project_updated_datetime
 
-    @CreateDateColumn({ type: 'timestamp'})
-    project_date_started
-
-    @CreateDateColumn({ type: 'timestamp'})
-    project_date_end
-
     @Column({ type: 'enum', enum: ProjectStatus, default: ProjectStatus.ACTIVE,})
     project_status
 
@@ -48,6 +43,18 @@ export class Project implements ProjectInterface {
     
     @Column({ type: 'int', default: 0 })
     project_progress
+
+    @Column({ type: 'int', default: 0 })
+    project_budget: number;
+
+    @Column({ type: 'varchar', length: 500, default: '' })
+    project_objective: string;
+
+    @Column({ type: 'date', default: null })
+    project_start_date: Date;
+
+    @Column({ type: 'date', default: null })
+    project_end_date: Date;
 
     @ManyToOne(() => Company)
     @JoinColumn({ name: 'project_client_company_uuid' })
