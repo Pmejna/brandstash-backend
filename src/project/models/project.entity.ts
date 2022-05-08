@@ -47,6 +47,9 @@ export class Project implements ProjectInterface {
     @Column({ type: 'int', default: 0 })
     project_budget: number;
 
+    @Column({ type: 'varchar', length: 250, default: '' })
+    project_budget_estimated: string;
+
     @Column({ type: 'varchar', length: 500, default: '' })
     project_objective: string;
 

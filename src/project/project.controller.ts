@@ -26,7 +26,7 @@ export class ProjectController {
     async getOne(
         @Param('uuid')uuid: string
     ) {
-        return await this.projectService.getOne({where: {project_id: uuid}});
+        return await this.projectService.getOne({where: {project_uuid: uuid}});
     }
 
     @Post('create') 

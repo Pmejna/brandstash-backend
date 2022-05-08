@@ -19,6 +19,7 @@ export interface ProjectInterface {
     project_priority: string
     project_progress: number
     project_budget: number
+    project_budget_estimated: string
     project_objective: string
     project_start_date: Date
     project_end_date: Date
